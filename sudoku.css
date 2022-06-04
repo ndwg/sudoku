@@ -2,7 +2,8 @@ body{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     text-align: center;
 
-    background-color: rgb(231, 238, 240);
+    /*background-color: rgb(231, 238, 240);*/
+    background-color: rgb(240, 240, 224);
 }
 
 #puzzle{
@@ -25,7 +26,8 @@ body{
 
     margin: 1px;
 
-    font-size: 64px;
+    font-size: 48px;
+    color: rgb(59, 70, 80);
     display: flex;
     justify-content: center;
     align-items: center;
