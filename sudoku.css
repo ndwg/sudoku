@@ -15,20 +15,44 @@ body{
     flex-wrap: wrap;
 }
 
-#puzzle div{
+#puzzle tile{
     width: 68px;
     height: 68px;
 
-    background-color:rgb(238, 237, 237);
+    /*background-color:rgb(238, 237, 237);*/
 
-    border: 0.5px solid silver;
+    border: 0.5px solid rgb(129, 116, 134);
     border-radius: 10px;
 
     margin: 1px;
 
     font-size: 48px;
-    color: rgb(59, 70, 80);
+    color: rgb(65, 59, 80);
     display: flex;
     justify-content: center;
     align-items: center;
+    text-justify: auto;
 }
+
+.primary-color{
+    background-color:rgb(242, 234, 245);
+}
+
+.alternate-color{
+    background-color:rgb(223, 216, 226);
+}
+
+.highlighted{
+    background-color: rgb(255, 255, 53);
+}
+
+#puzzle alert{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+
+    margin-left: 45px;
+    margin-top: 45px;
+    background-color: rgb(243, 49, 49);
+}
+
