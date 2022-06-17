@@ -1,6 +1,7 @@
 var puzzle = [];
 var potentials = [];
 var solution = [];
+//var inputSwitch = document.getElementById("switch");
 
 document.addEventListener("keydown", changeValue);
 
@@ -99,6 +100,7 @@ function chooseNumbers(){
     console.log(puzzle);
     console.log(solution);
     console.log(potentials);
+    //if(inputSwitch.getAttribute(checked)) console.log("test");
 }
 
 function setPotentials(){
@@ -136,6 +138,10 @@ function changeValue(input){
 
     if(input.key == 1 || input.key == 2 || input.key == 3 || input.key == 4 ||input.key == 5 ||input.key == 6 ||input.key == 7 ||input.key == 8 ||input.key == 9){
         if(Array.isArray(tileSelected) || tileSelected.length) tileSelected[0].innerText = input.key;
+    }
+
+    if(input.keyCode == 46){
+        if(Array.isArray(tileSelected) || tileSelected.length) tileSelected[0].innerText = "";
     }
 
     /*look at comment in clicktile function to create alert 

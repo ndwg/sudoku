@@ -64,8 +64,6 @@ input:checked + .slider:before{
     width: 68px;
     height: 68px;
 
-    /*background-color:rgb(238, 237, 237);*/
-
     border: 0.5px solid rgb(129, 116, 134);
     border-radius: 10px;
 
