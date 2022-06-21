@@ -55,12 +55,15 @@ input:checked + .slider:before{
     width: 648px;
     height: 648px;
 
+    position: relative;
+
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
 }
 
 #puzzle tile{
+    position: relative;
     width: 68px;
     height: 68px;
 
@@ -87,6 +90,150 @@ input:checked + .slider:before{
 
 .highlighted{
     background-color: rgb(255, 255, 53);
+}
+
+#puzzle candidate1{
+    width: 16px;
+    height: 16px;
+    font-size: 16;
+
+    position:absolute;
+
+    top: 7px;
+    left: 7px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-justify: auto;
+}
+
+#puzzle candidate2{
+    width: 16px;
+    height: 16px;
+    font-size: 16;
+
+    position: absolute;
+
+    top: 7px;
+    left: 26px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-justify: auto;
+}
+
+#puzzle candidate3{
+    width: 16px;
+    height: 16px;
+    font-size: 16;
+
+    position: absolute;
+
+    top: 7px;
+    left: 45px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-justify: auto;
+}
+
+#puzzle candidate4{
+    width: 16px;
+    height: 16px;
+    font-size: 16;
+
+    position:absolute;
+
+    top: 26px;
+    left: 7px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-justify: auto;
+}
+
+#puzzle candidate5{
+    width: 16px;
+    height: 16px;
+    font-size: 16;
+
+    position: absolute;
+
+    top: 26px;
+    left: 26px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-justify: auto;
+}
+
+#puzzle candidate6{
+    width: 16px;
+    height: 16px;
+    font-size: 16;
+
+    position: absolute;
+
+    top: 26px;
+    left: 45px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-justify: auto;
+}
+
+#puzzle candidate7{
+    width: 16px;
+    height: 16px;
+    font-size: 16;
+
+    position:absolute;
+
+    top: 45px;
+    left: 7px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-justify: auto;
+}
+
+#puzzle candidate8{
+    width: 16px;
+    height: 16px;
+    font-size: 16;
+
+    position: absolute;
+
+    top: 45px;
+    left: 26px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-justify: auto;
+}
+
+#puzzle candidate9{
+    width: 16px;
+    height: 16px;
+    font-size: 16;
+
+    position: absolute;
+
+    top: 45px;
+    left: 45px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-justify: auto;
 }
 
 #puzzle alert{

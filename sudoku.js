@@ -1,7 +1,18 @@
 var puzzle = [];
 var potentials = [];
 var solution = [];
-//var inputSwitch = document.getElementById("switch");
+var mode = false;
+var selectedRow;
+var selectedColumn;
+
+document.addEventListener("DOMContentLoaded", function(){
+    var checkbox = document.querySelector('input[type="checkbox"]');
+
+    checkbox.addEventListener("change", function(){
+        if(checkbox.checked) mode = true;
+        else mode = false;
+    });
+});
 
 document.addEventListener("keydown", changeValue);
 
@@ -30,7 +41,7 @@ function setPuzzle(){
             }
             
             tile.id = r.toString() + "-" + c.toString();
-            solutionTile.id = r.toString() + c.toString();
+            solutionTile.id = r.toString() + c.toString();     
             document.getElementById("puzzle").append(tile);
             tile.addEventListener("click",clickTile);
             row.push(tile);
@@ -44,7 +55,7 @@ function setPuzzle(){
 
     for(let r = 0; r < puzzle.length; r++){
         for(let c = 0; c < puzzle.length; c++){
-            if(Math.random() > .65){
+            if(Math.random() > .60){
                 //puzzle[r][c] = solution[r][c];
                 puzzle[r][c].textContent = solution[r][c];
                 puzzle[r][c].removeEventListener("click",clickTile);
@@ -99,8 +110,6 @@ function chooseNumbers(){
 
     console.log(puzzle);
     console.log(solution);
-    console.log(potentials);
-    //if(inputSwitch.getAttribute(checked)) console.log("test");
 }
 
 function setPotentials(){
@@ -131,17 +140,47 @@ function clickTile(){
     if(Array.isArray(oldTile) || oldTile.length) oldTile[0].classList.toggle("highlighted");
     //newTile.append(document.createElement("alert"));
     newTile.classList.toggle("highlighted");
+    let coords = newTile.id.split("-");
+    selectedRow = parseInt(coords[0]);
+    selectedColumn = parseInt(coords[1]);
 }
 
 function changeValue(input){
     let tileSelected = document.getElementsByClassName("highlighted");
 
-    if(input.key == 1 || input.key == 2 || input.key == 3 || input.key == 4 ||input.key == 5 ||input.key == 6 ||input.key == 7 ||input.key == 8 ||input.key == 9){
-        if(Array.isArray(tileSelected) || tileSelected.length) tileSelected[0].innerText = input.key;
+    if(mode){
+        if(input.key == 1 || input.key == 2 || input.key == 3 || input.key == 4 ||input.key == 5 ||input.key == 6 ||input.key == 7 ||input.key == 8 ||input.key == 9){
+            if(Array.isArray(tileSelected) || tileSelected.length){
+                let candidateOld = document.getElementById(selectedRow.toString() + selectedColumn.toString() + "-" + input.key.toString());
+                if(candidateOld != null) puzzle[selectedRow][selectedColumn].removeChild(candidateOld);
+                else{
+                    let candi = document.createElement("candidate" + input.key.toString());
+                    candi.textContent = input.key.toString();
+                    candi.id = selectedRow.toString() + selectedColumn.toString() + "-" + input.key.toString();
+                    puzzle[selectedRow][selectedColumn].append(candi);
+                }
+            }
+        }
+    }
+    else{
+        if(input.key == 1 || input.key == 2 || input.key == 3 || input.key == 4 ||input.key == 5 ||input.key == 6 ||input.key == 7 ||input.key == 8 ||input.key == 9){
+            if(Array.isArray(tileSelected) || tileSelected.length) tileSelected[0].innerText = input.key;
+        }
     }
 
     if(input.keyCode == 46){
         if(Array.isArray(tileSelected) || tileSelected.length) tileSelected[0].innerText = "";
+    }
+
+    if(input.keyCode == 32){
+        if(mode){
+            mode = false;
+            document.querySelector('input[type="checkbox"]').checked = false;
+        }
+        else{
+            mode = true;
+            document.querySelector('input[type="checkbox"]').checked = true;            
+        }
     }
 
     /*look at comment in clicktile function to create alert 
