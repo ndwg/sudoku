@@ -1,23 +1,21 @@
 var puzzle = [];
 var potentials = [];
 var solution = [];
+var answer = [...Array(9)].map(e => Array(9));
 var mode = false;
 var selectedRow;
 var selectedColumn;
-
-document.addEventListener("DOMContentLoaded", function(){
-    var checkbox = document.querySelector('input[type="checkbox"]');
-
-    checkbox.addEventListener("change", function(){
-        if(checkbox.checked) mode = true;
-        else mode = false;
-    });
-});
 
 document.addEventListener("keydown", changeValue);
 
 window.onload = function(){
     setPuzzle();
+
+    document.getElementById("btn1").addEventListener("click", changeMode);
+    document.getElementById("btn2").addEventListener("click", changeMode);
+
+    document.getElementById("btn1").classList.toggle("selected-button");
+    document.getElementById("btn2").classList.toggle("unselected-button");
 }
 
 function setPuzzle(){
@@ -55,10 +53,10 @@ function setPuzzle(){
 
     for(let r = 0; r < puzzle.length; r++){
         for(let c = 0; c < puzzle.length; c++){
-            if(Math.random() > .60){
-                //puzzle[r][c] = solution[r][c];
+            if(Math.random() > .65){
                 puzzle[r][c].textContent = solution[r][c];
                 puzzle[r][c].removeEventListener("click",clickTile);
+                answer[r][c] = solution[r][c];
                 
             }
         }
@@ -110,6 +108,7 @@ function chooseNumbers(){
 
     console.log(puzzle);
     console.log(solution);
+    console.log(answer);
 }
 
 function setPotentials(){
@@ -131,6 +130,19 @@ function updatePotentials(row, column){
     for(let s = 0; s < 9; s++){
         potentials[row][s].delete(solution[row][column]);
         potentials[s][column].delete(solution[row][column]);
+    }
+}
+
+function changeMode(){
+    let butt = this;
+
+    if(butt.classList.contains("unselected-button")){
+        mode = !mode;
+        let butt2 = document.getElementsByClassName("selected-button")[0];
+        butt2.classList.toggle("selected-button");
+        butt2.classList.toggle("unselected-button");
+        butt.classList.toggle("unselected-button");
+        butt.classList.toggle("selected-button");
     }
 }
 
@@ -165,21 +177,32 @@ function changeValue(input){
     else{
         if(input.key == 1 || input.key == 2 || input.key == 3 || input.key == 4 ||input.key == 5 ||input.key == 6 ||input.key == 7 ||input.key == 8 ||input.key == 9){
             if(Array.isArray(tileSelected) || tileSelected.length) tileSelected[0].innerText = input.key;
+            answer[selectedRow][selectedColumn] = parseInt(input.key);
+            checkWinner();
+            //console.log(answer);
         }
+        
     }
 
     if(input.keyCode == 46){
         if(Array.isArray(tileSelected) || tileSelected.length) tileSelected[0].innerText = "";
+        answer[selectedRow][selectedColumn] = "";
     }
 
     if(input.keyCode == 32){
         if(mode){
             mode = false;
-            document.querySelector('input[type="checkbox"]').checked = false;
+            document.getElementById("btn1").classList.toggle("unselected-button");
+            document.getElementById("btn1").classList.toggle("selected-button");
+            document.getElementById("btn2").classList.toggle("selected-button");
+            document.getElementById("btn2").classList.toggle("unselected-button");
         }
         else{
             mode = true;
-            document.querySelector('input[type="checkbox"]').checked = true;            
+            document.getElementById("btn1").classList.toggle("selected-button");
+            document.getElementById("btn1").classList.toggle("unselected-button");
+            document.getElementById("btn2").classList.toggle("unselected-button");    
+            document.getElementById("btn2").classList.toggle("selected-button");      
         }
     }
 
@@ -206,3 +229,20 @@ function changeValue(input){
     }*/
 }
 
+function checkWinner() {
+    var winner = true;
+
+    for(let r = 0; r < 9; r++){
+        for(let c = 0; c < 9; c++){
+            if(solution[r][c] != answer[r][c]){
+                winner = false;
+                break;
+            }
+        }
+        if(!winner) break;
+    }
+
+    if(winner){
+        console.log("winner");
+    }
+}
