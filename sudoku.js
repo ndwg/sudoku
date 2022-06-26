@@ -9,6 +9,8 @@ var selectedColumn;
 document.addEventListener("keydown", changeValue);
 
 window.onload = function(){
+    document.getElementById("timer").textContent = "00:00:00";
+
     setPuzzle();
 
     document.getElementById("btn1").addEventListener("click", changeMode);
@@ -16,6 +18,22 @@ window.onload = function(){
 
     document.getElementById("btn1").classList.toggle("selected-button");
     document.getElementById("btn2").classList.toggle("unselected-button");
+}
+
+var time = setInterval(countTimer, 1000);
+var totalSeconds = 0;
+
+function countTimer(){
+    if(document.hidden) return;
+
+    totalSeconds++;
+    var h = Math.floor(totalSeconds/3600);
+    var m = Math.floor((totalSeconds - h*3600)/60);
+    var s = totalSeconds - (h*3600 + m*60);
+    if(h < 10) h = "0" + h;
+    if(m < 10) m = "0" + m;
+    if(s < 10) s = "0" + s;
+    document.getElementById("timer").textContent = h + ":" + m + ":" + s;
 }
 
 function setPuzzle(){
@@ -61,6 +79,8 @@ function setPuzzle(){
             }
         }
     }
+
+    //getGivens();
 }
 
 function chooseNumbers(){
@@ -93,7 +113,7 @@ function chooseNumbers(){
         let val = values[Math.floor(Math.random()*values.length)];
         if(val != undefined){
             solution[smallestRow][smallestColumn] = val;
-            updatePotentials(smallestRow,smallestColumn);
+            updatePotentials(potentials,smallestRow,smallestColumn);
             establishedTiles.add(solution[smallestRow][smallestColumn].id);
         }
     }
@@ -109,6 +129,7 @@ function chooseNumbers(){
     console.log(puzzle);
     console.log(solution);
     console.log(answer);
+    console.log(potentials);
 }
 
 function setPotentials(){
@@ -120,16 +141,53 @@ function setPotentials(){
     return potentialsList;
 }
 
-function updatePotentials(row, column){
+function updatePotentials(array, row, column){
     for(let s = row - (row % 3); s < 3 + row - (row % 3); s++){
         for(let t = column - (column % 3); t < 3 + column - (column % 3); t++){
-            potentials[s][t].delete(solution[row][column]);
+            array[s][t].delete(solution[row][column]);
         }
     }
 
     for(let s = 0; s < 9; s++){
-        potentials[row][s].delete(solution[row][column]);
-        potentials[s][column].delete(solution[row][column]);
+        array[row][s].delete(solution[row][column]);
+        array[s][column].delete(solution[row][column]);
+    }
+}
+
+function getGivens(){
+    //let clear = true;
+    let givens = [...Array(9)].map(e => Array(9));
+
+    for(let i = 0; i < 18; i++){}
+
+    /*for(let r = 0; r < 9; r++){
+        for(let c = 0; c < 9; c++){
+            givens[r][c] = solution[r][c];
+        }
+    }
+
+    while(clear){
+        let randomRow = Math.floor(Math.random()*9);
+        let randomColumn = Math.floor(Math.random()*9);
+        let removedValue = solution[randomRow][randomColumn];
+        givens[randomRow][randomColumn] = 0;
+    
+        for(let s = randomRow - (randomRow % 3); s < 3 + randomRow - (randomRow % 3); s++){
+            for(let t = randomColumn - (randomColumn % 3); t < 3 + randomColumn - (randomColumn % 3); t++){
+                potentials[s][t].add(removedValue);
+            }
+        }
+    
+        for(let s = 0; s < 9; s++){
+            potentials[randomRow][s].add(removedValue);
+            potentials[s][randomColumn].add(removedValue);
+        }
+        clear = false;
+    }*/
+    for(let r = 0; r < solution.length; r++){
+        for(let c = 0; c < solution[0].length; c++){
+            potentials[r][c] = setPotentials();
+        }
     }
 }
 

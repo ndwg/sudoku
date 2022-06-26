@@ -8,6 +8,13 @@ body{
     background-color: rgb(240, 240, 224);
 }
 
+#timer{
+    font-size: 34;
+    color: rgb(65, 59, 80);
+    margin-bottom: 30;
+    margin-top: 30;
+}
+
 #btn1{
     border: 1px solid;
     display: inline-block;
