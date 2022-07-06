@@ -5,6 +5,7 @@ var answer = [...Array(9)].map(e => Array(9));
 var mode = false;
 var selectedRow;
 var selectedColumn;
+var gameStatus = true;
 
 document.addEventListener("keydown", changeValue);
 
@@ -22,14 +23,20 @@ window.onload = function(){
 
 var time = setInterval(countTimer, 1000);
 var totalSeconds = 0;
+var h, m, s;
+
+window.onclick = function(event){
+    if(event.target == document.getElementById("mo")) document.getElementById("mo").style.display = "none";
+}
 
 function countTimer(){
     if(document.hidden) return;
+    if(!gameStatus) return;
 
     totalSeconds++;
-    var h = Math.floor(totalSeconds/3600);
-    var m = Math.floor((totalSeconds - h*3600)/60);
-    var s = totalSeconds - (h*3600 + m*60);
+    h = Math.floor(totalSeconds/3600);
+    m = Math.floor((totalSeconds - h*3600)/60);
+    s = totalSeconds - (h*3600 + m*60);
     if(h < 10) h = "0" + h;
     if(m < 10) m = "0" + m;
     if(s < 10) s = "0" + s;
@@ -71,7 +78,7 @@ function setPuzzle(){
 
     for(let r = 0; r < puzzle.length; r++){
         for(let c = 0; c < puzzle.length; c++){
-            if(Math.random() > .65){
+            if(Math.random() > .20){
                 puzzle[r][c].textContent = solution[r][c];
                 puzzle[r][c].removeEventListener("click",clickTile);
                 answer[r][c] = solution[r][c];
@@ -80,7 +87,7 @@ function setPuzzle(){
         }
     }
 
-    //getGivens();
+    getGivens();
 }
 
 function chooseNumbers(){
@@ -157,8 +164,29 @@ function updatePotentials(array, row, column){
 function getGivens(){
     //let clear = true;
     let givens = [...Array(9)].map(e => Array(9));
+    let givenSet = new Set();
 
-    for(let i = 0; i < 18; i++){}
+    for(let r = 0; r < solution.length; r++){
+        for(let c = 0; c < solution[0].length; c++){
+            potentials[r][c] = setPotentials();
+        }
+    }
+
+    for(let i = 0; i < 17; i++){
+        let randomRow = Math.floor(Math.random()*9);
+        let randomColumn = Math.floor(Math.random()*9);
+
+        if(givenSet.has(randomRow + "-" + randomColumn)){
+            i--;
+            continue;
+        }
+        else givenSet.add(randomRow + "-" + randomColumn);
+
+        givens[randomRow][randomColumn] = solution[randomRow][randomColumn];
+        updatePotentials(potentials, randomRow, randomColumn);
+    }
+
+
 
     /*for(let r = 0; r < 9; r++){
         for(let c = 0; c < 9; c++){
@@ -184,11 +212,8 @@ function getGivens(){
         }
         clear = false;
     }*/
-    for(let r = 0; r < solution.length; r++){
-        for(let c = 0; c < solution[0].length; c++){
-            potentials[r][c] = setPotentials();
-        }
-    }
+
+    console.log(givens);
 }
 
 function changeMode(){
@@ -205,6 +230,8 @@ function changeMode(){
 }
 
 function clickTile(){
+    if(!gameStatus) return;
+
     let newTile = this;
     let oldTile = document.getElementsByClassName("highlighted");
     if(Array.isArray(oldTile) || oldTile.length) oldTile[0].classList.toggle("highlighted");
@@ -216,6 +243,8 @@ function clickTile(){
 }
 
 function changeValue(input){
+    if(!gameStatus) return;
+
     let tileSelected = document.getElementsByClassName("highlighted");
 
     if(mode){
@@ -302,5 +331,12 @@ function checkWinner() {
 
     if(winner){
         console.log("winner");
+        document.getElementById("mo").style.display = "block";
+        document.getElementById("moco").appendChild(document.createTextNode(h + ":" + m + ":" + s));
+
+        let oldTile = document.getElementsByClassName("highlighted");
+        if(Array.isArray(oldTile) || oldTile.length) oldTile[0].classList.toggle("highlighted");
+
+        gameStatus = false;
     }
 }
